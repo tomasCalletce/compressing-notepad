@@ -21,6 +21,8 @@ void write(const string& note){
     print(noteArray);  
 }
 
+
+
 int main() {
     string input;
     cout << "Enter command: ";
@@ -32,6 +34,11 @@ int main() {
         getline(cin, note);
 
         write(note);  
+    } else if (input == "edit") {
+        cout << "Enter the name of the file to edit: ";
+
+        string filename;
+        getline(cin, filename);
     } else {
         cout << "Unknown command" << endl;
     }
