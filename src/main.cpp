@@ -1,26 +1,39 @@
 #include <iostream>
 #include <string>
-#include <cstring> 
+
+using namespace std;
+
+void print(const char* note){
+    cout << "Note saved: " << note << endl; 
+}
+
+void compress(const char* note){
+    cout << "Compressing note..." << endl; 
+}
+
+void write(const string& note){
+    const int size = note.size() + 1; 
+    char* noteArray = new char[size];  
+
+    strcpy(noteArray, note.c_str());  
+
+    compress(noteArray);
+    print(noteArray);  
+}
 
 int main() {
-    const int MAX_NOTE_SIZE = 10; 
-    char data[MAX_NOTE_SIZE];       
-
-    std::string input;
-    std::cout << "Enter command: ";
-    std::getline(std::cin, input);
+    string input;
+    cout << "Enter command: ";
+    getline(cin, input);
 
     if (input == "write") {
-        std::cout << "Start typing and press enter to save compressed note: ";
-        std::string note;
-        std::getline(std::cin, note);
+        cout << "Start typing and press enter to save compressed note: ";
+        string note;
+        getline(cin, note);
 
-        strcpy(data, note.c_str()); 
-
-        std::cout << "Saved Note: " << data << std::endl;
-
+        write(note);  
     } else {
-        std::cout << "Unknown command" << std::endl;
+        cout << "Unknown command" << endl;
     }
 
     return 0;
