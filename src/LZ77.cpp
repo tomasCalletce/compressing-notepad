@@ -25,19 +25,32 @@ struct LZ77{
 
     // }
 
-    void compress(string outputFileName, string input){
+    vector<Token>  compress(string outputFileName, string input){
          ofstream outputFile(outputFileName, ios::binary);
         int currentIndex = 0;
-        d(input);
+        // d(input);
+        vector<Token> szs;
         while(currentIndex < sz(input)){
             d(currentIndex);
             vector<Token> tokens = search(currentIndex, input);
              for(Token token : tokens){
+                szs.push_back(token);
                 outputFile.write(reinterpret_cast<const char*>(&token), sizeof(Token));
             }
         }
+        return szs;
     }
 
+    string decompress(vector<Token> &tokens){
+        string s = "";
+        for(Token token : tokens){
+            if(token.distance){
+                s += s.substr(sz(s) - token.distance, token.length);
+            }
+            s += token.nextChar;
+        }
+        return s;
+    }
 
     vector<Token> search(int &start, string input){
         int end = min(start + lookaheadBuffer, sz(input) );
@@ -77,6 +90,9 @@ int main(){
     string s;
     cin>>s;
     LZ77 lz;
-    lz.compress("compressedfile.calle", s);
+    vector<Token> tokens = lz.compress("compressedfile.calle", s);
+
+    string ans = lz.decompress(tokens);
+    d(ans);
     return 0;
 }
