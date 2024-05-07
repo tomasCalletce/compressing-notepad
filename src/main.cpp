@@ -61,6 +61,12 @@ void fileHandler(string fileName){
     writeFile(file);
 }
 
+void compress(string outputFileName){
+    ofstream outputFile(outputFileName, ios::binary);
+    
+}
+
+
 int main(int argv, string argc[]) {
     string input;
     

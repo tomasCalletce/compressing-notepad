@@ -17,11 +17,7 @@ public:
     string decompress(const string& inputFileName, const string& outputFileName);
 
 private:
-    struct Token {
-        int distance;
-        int length;
-        char nextChar;
-    };
+  
 
     void writeToken(Token token, ofstream& outputFile);
     Token readToken(ifstream& inputFile);
