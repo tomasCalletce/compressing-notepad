@@ -17,8 +17,15 @@ void writeFile(const string& s){
     //Meterlo a un file compress
     // runLZ(s, "C",/**input file compress*/, )
 }
-
-
+struct Token{
+    int dist, len;
+    char c;
+    Token(){}
+    Token(int dist, int len, char c): dist(dist), len(len), c(c){}
+};
+// Token t(1,1,'c');
+// t.dist | t.len | t.c
+//(int, int, char)
 string toLower(const string &s){
     string resp = s;
     for(char &c : resp)c = tolower(c);
@@ -44,7 +51,7 @@ string readFile(string fileName){
 }
 
 
-void openFile(string fileName){
+void fileHandler(string fileName){
 
     string file = readFile(fileName);
     string input ="";
@@ -69,11 +76,13 @@ int main(int argv, string argc[]) {
             string fileName;
             getline(cin, fileName);
 
-            openFile(fileName);
+            fileHandler(fileName);
         } else if (input == toLower("edit")) {
             cout << "Enter the name of the file to edit: ";
             string filename;
             getline(cin, filename);
+            fileHandler(filename);
+
         } else {
             cout << "Unknown command" << el;
         }   
