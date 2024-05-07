@@ -32,21 +32,17 @@ struct LZ77{
         while(currentIndex < sz(input)){
             d(currentIndex);
             vector<Token> tokens = search(currentIndex, input);
-            d(sz(tokens));
              for(Token token : tokens){
-                d(token.distance);
-                d(token.length);
-                d(token.nextChar);
                 outputFile.write(reinterpret_cast<const char*>(&token), sizeof(Token));
             }
         }
     }
 
 
-
     vector<Token> search(int &start, string input){
-        int end = min(start + lookaheadBuffer, static_cast<int>(input.size()));
+        int end = min(start + lookaheadBuffer, sz(input) );
         vector<Token> tokens;
+
         while (start < end) {
             int bestMatchDistance = 0;
             int bestMatchLength = 0;
@@ -55,7 +51,7 @@ struct LZ77{
             for (int i = max(0, start - windowSize); i < start; ++i) {
                 int j = start;
                 int length = 0;
-                while (j < end && input[i + length] == input[j]) {
+                while (j < end - 1 && i + length < start && input[i + length] == input[j]) {
                     ++j;
                     ++length;
                 }
