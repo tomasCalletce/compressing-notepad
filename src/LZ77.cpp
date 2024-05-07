@@ -21,6 +21,18 @@ struct LZ77{
     LZ77(){}
     // LZ77(string compFileName): compFileName(compFileName){}
 
+
+    vector<Token> readFile(const string& fileName) {
+    ifstream inputFile(fileName, ios::binary);
+    vector<Token> tokens;
+    while (inputFile.peek() != EOF) {
+        Token token = readToken(inputFile);
+        tokens.push_back(token);
+    }
+    inputFile.close();
+    return tokens;
+}
+
     // string decompress(string fileName){
 
     // }
