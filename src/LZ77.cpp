@@ -1,5 +1,8 @@
 #include "LZ77.h"
-
+#include<bits/stdc++.h>
+#define el '\n'
+#define d(x) cerr<<#x<<" "<<x<<el
+using namespace std;
 void LZ77::compress(const string& inputFileName, const string& outputFileName) {
     ifstream inputFile(inputFileName, ios::binary);
     ofstream outputFile(outputFileName, ios::binary);
@@ -40,18 +43,13 @@ void LZ77::writeToken(Token token, ofstream& outputFile) {
     outputFile.write(reinterpret_cast<const char*>(&token), sizeof(Token));
 }
 
-void LZ77::decompress(const string& inputFileName, const string& outputFileName) {
+string LZ77::decompress(const string& inputFileName, const string& outputFileName) {
     ifstream inputFile(inputFileName, ios::binary);
-    ofstream outputFile(outputFileName, ios::binary);
+    string outString = "";
 
     if (!inputFile.is_open()) {
         cerr << "No se puede abrir el archivo de entrada." << endl;
-        return;
-    }
-
-    if (!outputFile.is_open()) {
-        cerr << "No se puede abrir el archivo de salida." << endl;
-        return;
+        return "";
     }
 
     Token token;
@@ -60,26 +58,19 @@ void LZ77::decompress(const string& inputFileName, const string& outputFileName)
         if (inputFile.eof()) break;
 
         if (token.length == 0) {
-            outputFile.put(token.nextChar);
+           outString += token.nextChar;
         } else {
+            d(token.distance);
+            d(token.length);
             // Mover el puntero de lectura a la posición inicial de la secuencia a copiar
-            int startPos = outputFile.tellp();
-            int startPosBuffer = startPos - token.distance;
-            inputFile.seekg(startPosBuffer);
-
-            // Leer y escribir los bytes de la secuencia a copiar
-            for (int i = 0; i < token.length; ++i) {
-                char c;
-                inputFile.get(c);
-                outputFile.put(c);
-            }
-            outputFile.put(token.nextChar);
+            outString += outString.substr(outString.size() - token.distance, token.length);
+            outString += token.nextChar;
         }
     }
 
     inputFile.close();
-    outputFile.close();
-    cout << "Archivo (" << inputFileName << ") descomprimido correctamente. Archivo creado: " << outputFileName << endl;
+    cout << "Archivo (" << inputFileName << ") descomprimido correctamente. ";
+    return outString;
 }
 
 LZ77::Token LZ77::readToken(ifstream& inputFile) {
@@ -117,4 +108,10 @@ vector<LZ77::Token> LZ77::search(const string& input, int start, int windowSize,
     }
 
     return tokens;
+}
+
+int main(){
+    LZ77 lz();
+    lz.compress(abcabbcabbcabca)
+    return 0;
 }

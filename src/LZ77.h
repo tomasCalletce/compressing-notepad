@@ -14,7 +14,7 @@ public:
     ~LZ77() {}
 
     void compress(const string& inputFileName, const string& outputFileName);
-    void decompress(const string& inputFileName, const string& outputFileName);
+    string decompress(const string& inputFileName, const string& outputFileName);
 
 private:
     struct Token {
